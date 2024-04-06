@@ -3,6 +3,11 @@
 import pandas as pd
 import numpy as np
 
+#------------------------------------------------------------------------
+import scipy.stats as stats
+from scipy.stats import shapiro
+from scipy.stats import mannwhitneyu
+
 # -----------------------------------------------------------------------
 pd.set_option('display.max_columns', None) 
 import warnings
@@ -55,7 +60,7 @@ def guardado_csv(dataframe, carpeta, nombre_archivo):
         La función no devuelve ningún valor, pero imprime un mensaje indicando si el guardado fue exitoso o si ocurrió algún error.
     '''
     try:
-        dataframe.to_csv(f'{carpeta}/{nombre_archivo}_limpio.csv')
+        dataframe.to_csv(f'{carpeta}/{nombre_archivo}.csv')
         print('El dataframe ha sido guardado con éxito.')
     except Exception as e:
         print(f'Error en el guardado: {e}')
@@ -214,3 +219,54 @@ def describir_columnas(dataframe, columnas):
         print(f"Descripción de la columna {col.upper()}:")
         display(dataframe[[col]].describe().T)
         print("\n ----- \n")
+
+#función para realizar el test de Shapiro-Wilk
+def test_shapiro(data, alpha=0.05):
+    '''
+    Realiza el test de Shapiro-Wilk para determinar si una muestra sigue una distribución normal.
+
+    Args:
+    data (array_like): La muestra que se va a evaluar.
+    alpha (float): El nivel de significancia para el test. Por defecto es 0.05.
+
+    Returns:
+    None: La función imprime los resultados del test de Shapiro-Wilk.
+    '''
+    # Realizar el test de Shapiro-Wilk
+    stat, p_value = shapiro(data)
+
+    # Mostrar los resultados
+    print(f'Estadístico de prueba: {stat}')
+    print(f'Valor p: {p_value}')
+
+    # Interpretar los resultados
+    if p_value > alpha:
+        print('No se rechaza la hipótesis nula: los datos parecen provenir de una distribución normal.')
+    else:
+        print('Se rechaza la hipótesis nula: los datos no parecen provenir de una distribución normal.')
+
+#función para realizar el test de Mann-Whitney
+def mann_whitney(data1, data2, alpha=0.05):
+    '''
+    Realiza el test de Mann-Whitney para comparar dos muestras independientes.
+
+    Args:
+    data1 (array_like): La primera muestra a comparar.
+    data2 (array_like): La segunda muestra a comparar.
+    alpha (float): El nivel de significancia para el test. Por defecto es 0.05.
+
+    Returns:
+    None: La función imprime los resultados del test de Mann-Whitney.
+    '''
+    # Realizar el test de Mann-Whitney
+    stat, p_value = mannwhitneyu(data1, data2)
+
+    # Mostrar los resultados
+    print(f'Estadístico de prueba: {stat}')
+    print(f'Valor p: {p_value}')
+
+    # Interpretar los resultados
+    if p_value > alpha:
+        print('No se rechaza la hipótesis nula: no hay diferencia significativa entre las muestras.')
+    else:
+        print('Se rechaza la hipótesis nula: hay una diferencia significativa entre las muestras.')
