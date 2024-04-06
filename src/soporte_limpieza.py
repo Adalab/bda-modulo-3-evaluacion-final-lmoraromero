@@ -10,23 +10,28 @@ warnings.filterwarnings("ignore")
 
 
 #función para leer los CSV
-def leer_cvs(carpeta, nombre_archivo):
+def leer_cvs(carpeta, nombre_archivo, drop_unnamed=True):
     '''
     Abre y lee los documentos CSV. 
         Si el archivo se encuentra, lo abre en un DataFrame de pandas y lo devuelve. 
         Si el archivo no se encuentra, la función imprime un mensaje indicando que el archivo no se encontró y devuelve None.
     
-    Esta función el nombre de una carpeta y el nombre de archivo como entrada y lee el archivo CSV.
+    Esta función toma el nombre de una carpeta y el nombre de archivo como entrada y lee el archivo CSV.
     
     Args:
-    carpeta(str): El nombre de la carpeta donde se encuentra el archivo
+    carpeta (str): El nombre de la carpeta donde se encuentra el archivo.
     nombre_archivo (str): El nombre del archivo csv sin la extensión.
-    
+    drop_unnamed (bool, opcional): Indica si se debe excluir la columna 'Unnamed' al leer el archivo CSV. Por defecto es True.
+
     Returns:
     pd.DataFrame: Un DataFrame que contiene los datos del archivo csv, o None si el archivo no se encuentra.
     '''
     try:
         df = pd.read_csv(f'{carpeta}/{nombre_archivo}.csv')
+        
+        if drop_unnamed:
+            df = df.drop(columns=["Unnamed: 0"], errors="ignore")  # Ignora si la columna no existe
+        
         return df
     
     except FileNotFoundError:
@@ -98,7 +103,7 @@ def minusculas(dataframe):
             dataframe[col] = dataframe[col].str.lower()
 
 #función para modificar los nombres de las columnas
-def modificar_nombres_columnas(df):
+def modificar_columnas(df):
     '''
     Cambia los nombres de las columnas en un DataFrame para reemplazar los espacios por '_'.
 
@@ -192,3 +197,20 @@ def valores_unicos(dataframe, columnas):
         print(f"La columna {col.upper()} tiene los siguientes valores únicos:")
         display(pd.DataFrame(dataframe[col].value_counts()).head())
         print("----")
+
+#función para ver los estadísticos de las columnas:
+def describir_columnas(dataframe, columnas):
+    '''
+    Muestra las estadísticas descriptivas de las columnas especificadas de un DataFrame.
+
+    Args:
+    dataframe (DataFrame): El DataFrame del que se mostrarán las estadísticas descriptivas.
+    columnas (str o list): Un string o lista de strings que contiene los nombres de las columnas.
+
+    Returns:
+    None: La función imprime las estadísticas descriptivas para cada columna especificada.
+    '''
+    for col in columnas:
+        print(f"Descripción de la columna {col.upper()}:")
+        display(dataframe[[col]].describe().T)
+        print("\n ----- \n")
