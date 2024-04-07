@@ -5,8 +5,8 @@ from src import soporte_limpieza as sp
 #------
 #Leer csv:
 print("Abriendo los csv para su limpieza:")
-flight = sp.leer_cvs("files", "Customer Flight Activity")
-loyalty = sp.leer_cvs("files", "Customer Loyalty History")
+flight = sp.leer_csv("files", "Customer Flight Activity")
+loyalty = sp.leer_csv("files", "Customer Loyalty History")
 print("----")
 #Comprobamos el total de filas y columnas que tenemos en el DF
 print(f"En el DataFrame 'flight tenemos un total de {flight.shape[0]} filas y {flight.shape[1]} columnas.")
@@ -80,7 +80,7 @@ sp.rellenar_mediana(df_union, 'salary')
 #imputer_iterative = IterativeImputer(max_iter=20, random_state=42)
 #imputer_iterative_imputado = imputer_iterative.fit_transform(df_union[["salary"]])
 #df_union["salary"] = imputer_iterative_imputado
-print(f"Después de la imputación iterativa, tenemos:\n{df_union['salary'].isnull().sum()} valores nulos")
+print(f"Después de la imputación, tenemos:\n{df_union['salary'].isnull().sum()} valores nulos")
 print("----")
 print("Guardando el csv en la carpeta 'files'")
 sp.guardado_csv(df_union, "files", "customer_limpio")

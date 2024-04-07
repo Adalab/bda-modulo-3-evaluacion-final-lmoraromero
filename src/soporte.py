@@ -1,21 +1,15 @@
 #IMPORTACIONES
-
 import pandas as pd
 import numpy as np
-
-#------------------------------------------------------------------------
 import scipy.stats as stats
 from scipy.stats import shapiro
 from scipy.stats import mannwhitneyu
-
-# -----------------------------------------------------------------------
 pd.set_option('display.max_columns', None) 
 import warnings
 warnings.filterwarnings("ignore")
-
-
+#------
 #función para leer los CSV
-def leer_cvs(carpeta, nombre_archivo, drop_unnamed=True):
+def leer_csv(carpeta, nombre_archivo, drop_unnamed=True):
     '''
     Abre y lee los documentos CSV. 
         Si el archivo se encuentra, lo abre en un DataFrame de pandas y lo devuelve. 
@@ -43,7 +37,7 @@ def leer_cvs(carpeta, nombre_archivo, drop_unnamed=True):
     except FileNotFoundError:
         print('No se ha encontrado el archivo')
         return None
-    
+#------
 #función pata guardar los CSV
 def guardado_csv(dataframe, carpeta, nombre_archivo):
     '''
@@ -64,7 +58,7 @@ def guardado_csv(dataframe, carpeta, nombre_archivo):
         print('El dataframe ha sido guardado con éxito.')
     except Exception as e:
         print(f'Error en el guardado: {e}')
-
+#------
 #función para capitalizar el nombre de las columnas:
 def col_minuscula(dataframe):
     '''
@@ -85,7 +79,7 @@ def col_minuscula(dataframe):
     print("----")
     print("\nNombres de las columnas después del cambio:")
     print(dataframe.columns)
-
+#------
 #función para vonvertir los valores del DF en minúsculas
 #Aplica la función str.lower() a cada celda del DataFrame
 def minusculas(dataframe):
@@ -104,7 +98,7 @@ def minusculas(dataframe):
         # Verificar si la columna contiene strings y convertirlos a minúsculas
         if dataframe[col].dtype == 'object':
             dataframe[col] = dataframe[col].str.lower()
-
+#------
 #función para modificar los nombres de las columnas
 def modificar_columnas(dataframe):
     '''
@@ -120,7 +114,7 @@ def modificar_columnas(dataframe):
     dataframe.rename(columns=lambda x: x.replace(' ', '_'), inplace=True)
     print("---")
     print(f"Las columnas después de ser cambiadas son: {list(dataframe.columns)}")
-
+#------
 #función para cambiar el nombre de las columnas
 def cambiar_nombres_columnas(dataframe, nombres_nuevos):
     '''
@@ -135,7 +129,7 @@ def cambiar_nombres_columnas(dataframe, nombres_nuevos):
     None: La función modifica el DataFrame original inplace.
     '''
     dataframe.rename(columns=nombres_nuevos, inplace=True)
-
+#------
 #función para cambiar tipo de dato
 def cambiar_dato(dataframe, columnas, nuevo_tipo):
     '''
@@ -167,7 +161,7 @@ def cambiar_dato(dataframe, columnas, nuevo_tipo):
     
     print("Después del cambio de tipo, las columnas quedan:")
     display(pd.DataFrame(dataframe[columnas].dtypes, columns=["type"]))
-
+#------
 #función para ver si hay duplicados:
 def explorar_duplicados(dataframe):
     """
@@ -180,7 +174,7 @@ def explorar_duplicados(dataframe):
         None
     """
     print(f"Tenemos {dataframe.duplicated().sum()} duplicados en el conjunto de datos.")
-
+#------
 #función para eliminar duplicados:
 def eliminar_duplicados(dataframe):
     """
@@ -197,7 +191,7 @@ def eliminar_duplicados(dataframe):
     dataframe.drop_duplicates(inplace=True)
     print(f"Después de la eliminación de duplicados tenemos {dataframe.duplicated().sum()} duplicados en el conjunto de datos.")
     print(f"Después de realizar la eliminación tenemos {dataframe.shape[0]} filas.")
-
+#------
 #función para explorar los nulos:
 def explorar_nulos(dataframe):
     """
@@ -213,7 +207,7 @@ def explorar_nulos(dataframe):
     print("Los nulos que tenemos en el conjunto de datos son:")
     df_nulos = pd.DataFrame(dataframe.isnull().sum() / dataframe.shape[0] * 100, columns=["%_nulos"])
     display(df_nulos[df_nulos["%_nulos"] > 0])
-
+#------
 #función para eliminar columnas:
 def eliminar_columnas(dataframe, columnas):
     """
@@ -228,7 +222,7 @@ def eliminar_columnas(dataframe, columnas):
     """
     dataframe.drop(columns=columnas, inplace=True)
     print(f"Las columnas actuales son: \n {list(dataframe.columns)}")
-
+#------
 #Usar map:
 def aplicar_map(dataframe, columna, mapeo):
     """
@@ -245,7 +239,7 @@ def aplicar_map(dataframe, columna, mapeo):
     print(f"Valores únicos en la columna '{columna}' antes de aplicar el mapeo: {dataframe[columna].unique()}")
     dataframe[columna] = dataframe[columna].map(mapeo)
     print(f"Valores únicos en la columna '{columna}' después de aplicar el mapeo: {dataframe[columna].unique()}")
-
+#------
 def reemplazar(dataframe, columna, mapeo):
     """
     Reemplaza valores en una columna del DataFrame utilizando el método .replace().
@@ -262,7 +256,7 @@ def reemplazar(dataframe, columna, mapeo):
     print(f"Valores únicos en la columna '{columna}' antes de aplicar el mapeo: {dataframe[columna].unique()}")
     dataframe[columna] = dataframe[columna].replace(mapeo)
     print(f"Valores únicos en la columna '{columna}' después de aplicar el mapeo: {dataframe[columna].unique()}")
-
+#------
 def negativos(df, columna):
     """
     Verifica si hay números negativos en una columna de un DataFrame y, en caso afirmativo, 
@@ -280,7 +274,7 @@ def negativos(df, columna):
         df[columna] = df[columna].abs()
     else:
         print(f"No hay números negativos en la columna {columna}.")
-
+#------
 #función para rellenar nulos:
 def rellenar_nulos(dataframe, columnas, valor):
     '''
@@ -296,7 +290,7 @@ def rellenar_nulos(dataframe, columnas, valor):
     '''
     dataframe[columnas] = dataframe[columnas].fillna(valor)
     print(f"El total de nulos en las columnas {columnas} después de aplicar .fillna() es: {dataframe[columnas].isna().sum()}")
-
+#------
 def rellenar_mediana(dataframe, columnas):
     """
     Rellena los valores nulos en las columnas especificadas de un DataFrame con la mediana de esas columnas.
@@ -312,7 +306,7 @@ def rellenar_mediana(dataframe, columnas):
     dataframe[columnas] = dataframe[columnas].fillna(mediana)  # Rellena los valores nulos con las medias calculadas
     print(f"Los valores nulos en las columnas {columnas} se han rellenado con la mediana respectiva.")
     print(f"El total de nulos en las columnas {columnas} después de aplicar .fillna() es: {dataframe[columnas].isna().sum()}")
-
+#------
 def rellenar_media(dataframe, columnas):
     """
     Rellena los valores nulos en las columnas especificadas de un DataFrame con la mediana de esas columnas.
@@ -328,7 +322,7 @@ def rellenar_media(dataframe, columnas):
     dataframe[columnas] = dataframe[columnas].fillna(media)  # Rellena los valores nulos con las medias calculadas
     print(f"Los valores nulos en las columnas {columnas} se han rellenado con la media respectiva.")
     print(f"El total de nulos en las columnas {columnas} después de aplicar .fillna() es: {dataframe[columnas].isna().sum()}")
-
+#------
 def copiar_columna(dataframe, nombre_columna_original, nombre_nueva_columna):
     """
     Realiza una copia de una columna en un DataFrame de pandas.
@@ -342,7 +336,7 @@ def copiar_columna(dataframe, nombre_columna_original, nombre_nueva_columna):
         None
     """
     dataframe[nombre_nueva_columna] = dataframe[nombre_columna_original].copy()
-
+#------
 #función para ver los tipos de las columnas:
 def mostrar_tipos(dataframe):
     """
@@ -353,7 +347,7 @@ def mostrar_tipos(dataframe):
     """
     for columna in dataframe.columns:
         print(f"Columna '{columna}': {dataframe[columna].dtype}")
-
+#------
 #función para ver los valores únicos
 def valores_unicos(dataframe, columnas):
     '''
@@ -370,7 +364,7 @@ def valores_unicos(dataframe, columnas):
         print(f"La columna {col.upper()} tiene los siguientes valores únicos:")
         display(pd.DataFrame(dataframe[col].value_counts()).head())
         print("----")
-
+#------
 #función para ver los estadísticos de las columnas:
 def describir_columnas(dataframe, columnas):
     '''
@@ -387,7 +381,7 @@ def describir_columnas(dataframe, columnas):
         print(f"Descripción de la columna {col.upper()}:")
         display(dataframe[[col]].describe().T)
         print("\n ----- \n")
-
+#------
 #función para realizar el test de Shapiro-Wilk
 def test_shapiro(data, alpha=0.05):
     '''
@@ -412,7 +406,7 @@ def test_shapiro(data, alpha=0.05):
         print('No se rechaza la hipótesis nula: los datos parecen provenir de una distribución normal.')
     else:
         print('Se rechaza la hipótesis nula: los datos no parecen provenir de una distribución normal.')
-
+#------
 #función para realizar el test de Mann-Whitney
 def mann_whitney(data1, data2, alpha=0.05):
     '''
