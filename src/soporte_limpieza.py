@@ -198,25 +198,6 @@ def eliminar_duplicados(dataframe):
     print(f"Después de la eliminación de duplicados tenemos {dataframe.duplicated().sum()} duplicados en el conjunto de datos.")
     print(f"Después de realizar la eliminación tenemos {dataframe.shape[0]} filas.")
 
-#función para eliminar las filas por índice
-def eliminar_filas(dataframe, inicio, fin):
-    """
-    Elimina las filas de un DataFrame por rango de índices.
-
-    Args:
-        dataframe (pd.DataFrame): DataFrame de pandas.
-        inicio (int): Índice de inicio del rango a eliminar.
-        fin (int): Índice de fin del rango a eliminar.
-
-    Returns:
-        None
-    """
-    print(f"Antes de realizar la eliminación tenemos {dataframe.shape[0]} filas.")
-    dataframe.drop(dataframe.index[inicio:fin+1], inplace=True)
-    print(f"Después de realizar la eliminación tenemos {dataframe.shape[0]} filas.")
-    
-    
-
 #función para explorar los nulos:
 def explorar_nulos(dataframe):
     """
