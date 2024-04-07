@@ -403,9 +403,9 @@ def test_shapiro(data, alpha=0.05):
 
     # Interpretar los resultados
     if p_value > alpha:
-        print('No se rechaza la hipótesis nula: los datos parecen provenir de una distribución normal.')
+        print('Los datos parecen provenir de una distribución normal.')
     else:
-        print('Se rechaza la hipótesis nula: los datos no parecen provenir de una distribución normal.')
+        print('Los datos no parecen provenir de una distribución normal.')
 #------
 #función para realizar el test de Mann-Whitney
 def mann_whitney(data1, data2, alpha=0.05):
