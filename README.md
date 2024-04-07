@@ -42,10 +42,10 @@ El repositorio está compuesto por tres carpetas:
         - test_shapiro: Realiza el test de Shapiro-Wilk para determinar si una muestra sigue una distribución normal.
         - mann_whitney: Realiza el test de Mann-Whitney para comparar dos muestras independientes.
 
-3. La carpeta 'notebooks' que contiene:
-    - Archivo 'evaluación_final': documento .ipynb donde se explica el proceso de limpieza de los datos con comentarios y se realiza además un análisis profundo de los datos. También se encuentra la visualización de los datos mediante gráficas y la realización de las pruebas estadísticas para evaluar hipótesis.
+3. Archivo 'evaluación_final': documento .ipynb donde se explica el proceso de limpieza de los datos con comentarios y se realiza además un análisis profundo de los datos. También se encuentra la visualización de los datos mediante gráficas y la realización de las pruebas estadísticas para evaluar hipótesis.
 
-4. Fuera de las carpetas encontramos el archivo *'main.py'*, que contiene la automatización del proceso de limpieza de los datos.
+4. Archivo *'main.py'*, que contiene la automatización del proceso de limpieza de los datos.
+
     **IMPORTANTE**❗En el archivo *'evaluación_final'* se realiza la imputación de los nulos de la columna 'salary' mediante IterativeImputer. Por problemas de compatibilidad, en el archivo de automatización del código se imputa la media. Aún así el IterativeImputer se encuentra comentado en caso de que en otros equipos funcione.
 
 ### *FASES DEL PROYECTO*
